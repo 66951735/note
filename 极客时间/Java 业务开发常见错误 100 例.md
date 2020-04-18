@@ -48,3 +48,9 @@
 - ForkJoinPool 和传统的 ThreadPoolExecutor 区别在于，前者对于 n 并行度有 n 个独立队列，后者是共享队列。
 - 如果有大量执行耗时比较短的任务，ThreadPoolExecutor 的单队列就可能会成为瓶颈。这时，使用 ForkJoinPool 性能会更好。
 - 因此，ForkJoinPool 更适合大任务分割成许多小任务并行执行的场景，而 ThreadPoolExecutor 适合许多独立任务并发执行的场景。
+
+#### CPU高问题排查
+
+- 首先，在 Linux 服务器上运行 top -Hp pid 命令，来查看进程中哪个线程 CPU 使用高。
+- 然后，输入大写的 P 将线程按照 CPU 使用率排序，并把明显占用 CPU 的线程 ID 转换为 16 进制；
+- 最后，在 jstack 命令输出的线程栈中搜索这个线程 ID，定位出问题的线程当时的调用栈。
